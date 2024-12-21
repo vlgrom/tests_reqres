@@ -1,0 +1,42 @@
+name: Run API Tests
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      docker:
+        image: docker:20.10.8
+        options: >-
+          --privileged
+          --network host
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Build Docker image
+        run: docker build -t my-tests .
+
+      - name: Run tests
+        run: docker run --rm my-tests
+
+      - name: Generate Allure Report
+        run: |
+          docker run --rm my-tests mvn allure:report
+          mkdir -p allure-results
+          docker cp "$(docker ps -ql):/app/target/allure-results" ./allure-results
+
+      - name: Upload Allure Report
+        uses: actions/upload-artifact@v2
+        with:
+          name: Allure Report
+          path: allure-results
