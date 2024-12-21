@@ -4,10 +4,11 @@ Testing reqres.in
 # Descripton
 Написать 1 позитивный и 1 негативный тест на каждый из эндпоинтов к сервису https://reqres.in/:
 
-POST /register
-PUT /users/{id}
-DELETE /users/{id}
-GET /users/{id}
+1. POST /register
+2. PUT /users/{id}
+3. DELETE /users/{id}
+4. GET /users/{id}
+
 ! Проверить бизнес-логику, статус код и модель ответа.
 
 ! Для тестов настроить автоматический прогон и формирование отчетов на удаленной машине.
