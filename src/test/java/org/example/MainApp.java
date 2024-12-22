@@ -5,6 +5,6 @@ public class MainApp {
         System.out.println("Запуск приложения...");
 
         // Запуск тестов
-        org.junit.runner.JUnitCore.main("ApiTests");
+        org.junit.runner.JUnitCore.main("RegisterTests");
     }
 }
