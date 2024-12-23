@@ -37,3 +37,9 @@ jobs:
         with:
           name: Allure Report
           path: allure-results
+
+      - name: Generate site
+        uses: actions/upload-artifact@v4
+        with:
+          name: Generate site
+          path: target/site
