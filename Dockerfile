@@ -1,14 +1,17 @@
-# Используем Maven с OpenJDK 21
-FROM maven:3.8.5-eclipse-temurin-21-alpine
+# Используем OpenJDK 21 в качестве базового образа
+FROM eclipse-temurin:21-jdk
+
+# Устанавливаем Maven вручную
+RUN apt-get update && apt-get install -y maven
 
 # Устанавливаем рабочую директорию
 WORKDIR /app
 
-# Копируем все файлы проекта в контейнер
+# Копируем файлы проекта
 COPY . .
 
 # Скачиваем зависимости и собираем проект
 RUN mvn clean package
 
-# Выполняем тесты при запуске контейнера
+# Запускаем тесты
 CMD ["mvn", "test"]
