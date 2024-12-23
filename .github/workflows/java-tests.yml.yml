@@ -13,21 +13,18 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
-
       - name: Build Docker image
         run: docker build -t api-tests .
 
-      - name: Run tests
+      - name: Run tests in Docker container
         run: docker run --rm api-tests
 
-      - name: Generate Allure Report
+      - name: Upload Allure Results
         run: |
           docker cp $(docker ps -ql):/app/target/allure-results ./allure-results
 
       - name: Upload Allure Report
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: Allure Report
           path: allure-results
