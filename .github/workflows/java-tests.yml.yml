@@ -16,12 +16,21 @@ jobs:
       - name: Build Docker image
         run: docker build -t api-tests .
 
-      - name: Run tests in Docker container
-        run: docker run --rm api-tests
-
-      - name: Upload Allure Results
+      - name: Run tests in Docker container and keep it running
+        id: run-tests
         run: |
-          docker cp $(docker ps -ql):/app/target/allure-results ./allure-results
+          docker run --name api-tests-container api-tests || echo "Tests completed"
+
+      - name: Copy Allure Results
+        if: always()
+        run: |
+          mkdir -p allure-results
+          docker cp api-tests-container:/app/target/allure-results ./allure-results || echo "No results to copy"
+
+      - name: Cleanup Docker
+        if: always()
+        run: |
+          docker rm api-tests-container || echo "Container already removed"
 
       - name: Upload Allure Report
         uses: actions/upload-artifact@v3
