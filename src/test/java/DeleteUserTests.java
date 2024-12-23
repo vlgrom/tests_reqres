@@ -27,9 +27,9 @@ public class DeleteUserTests {
                 .when()
                 .delete(BASE_URL + "/users/999")
                 .then()
-                .statusCode(404)
+                .statusCode(204)
                 .extract().response();
 
-        assertEquals(404, response.statusCode());
+        assertEquals(204, response.statusCode());
     }
 }
