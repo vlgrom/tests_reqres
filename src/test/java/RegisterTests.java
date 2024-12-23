@@ -12,7 +12,7 @@ public class RegisterTests {
     public void testRegisterPositive() {
         String requestBody = """
             {
-                "email": "eve.holtreqres.in",
+                "email": "eve.holt@reqres.in",
                 "password": "pistol"
             }
         """;
