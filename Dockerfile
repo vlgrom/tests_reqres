@@ -10,11 +10,8 @@ WORKDIR /app
 # Копируем файлы проекта
 COPY . .
 
-# Скачиваем зависимости
-RUN mvn clean install
+# Скачиваем зависимости и собираем проект
+RUN mvn clean package
 
-# Генерируем Allure-отчёт
-RUN mvn allure:report
-
-# Указываем папку site в качестве результата
-CMD ["tail", "-f", "/dev/null"]
+# Запускаем тесты
+CMD ["mvn", "test"]
