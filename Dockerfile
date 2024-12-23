@@ -1,25 +1,14 @@
-# Используем образ Maven
-FROM maven:3.8.6-jdk-11 AS build
+# Используем базовый образ Maven с поддержкой JDK 21
+FROM maven:3.8.5-eclipse-temurin-21
 
-# Указываем рабочую директорию
+# Устанавливаем рабочую директорию внутри контейнера
 WORKDIR /app
 
-# Копируем pom.xml и файл с исходным кодом
-COPY pom.xml .
-COPY src ./src
+# Копируем все файлы проекта в рабочую директорию
+COPY . .
 
-# Собираем проект
+# Скачиваем зависимости и собираем проект
 RUN mvn clean package
 
-# Выбираем образ JDK для выполнения тестов
-FROM openjdk:11-jre-slim
-
-# Копируем скомпилированный проект из предыдущего шага
-COPY --from=build /app/target/my-project-1.0.jar /app/my-project.jar
-
-# Устанавливаем Allure для генерации отчетов
-RUN apt-get update && \
-    apt-get install -y allure
-
-# Определяем команду по умолчанию
-CMD ["java", "-jar", "/app/my-project.jar"]
+# Выполняем тесты при запуске контейнера
+CMD ["mvn", "test"]
