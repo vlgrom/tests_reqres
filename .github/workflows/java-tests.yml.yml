@@ -33,7 +33,7 @@ jobs:
           docker rm api-tests-container || echo "Container already removed"
 
       - name: Upload Allure Report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: Allure Report
           path: allure-results
