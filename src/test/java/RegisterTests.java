@@ -1,3 +1,4 @@
+import io.qameta.allure.Description;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
 
@@ -9,6 +10,7 @@ public class RegisterTests {
     private static final String BASE_URL = "https://reqres.in/api";
 
     @Test
+    @Description
     public void testRegisterPositive() {
         String requestBody = """
             {
