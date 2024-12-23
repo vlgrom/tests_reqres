@@ -16,16 +16,15 @@ jobs:
       - name: Build Docker image
         run: docker build -t api-tests .
 
-      - name: Run tests in Docker container and keep it running
-        id: run-tests
+      - name: Run tests and generate Allure report
         run: |
           docker run --name api-tests-container api-tests || echo "Tests completed"
 
-      - name: Copy Allure Results
+      - name: Copy Allure Report
         if: always()
         run: |
-          mkdir -p allure-results
-          docker cp api-tests-container:/app/target/allure-results ./allure-results || echo "No results to copy"
+          mkdir -p allure-report
+          docker cp api-tests-container:/app/target/site ./allure-report || echo "No report to copy"
 
       - name: Cleanup Docker
         if: always()
@@ -33,13 +32,7 @@ jobs:
           docker rm api-tests-container || echo "Container already removed"
 
       - name: Upload Allure Report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v3
         with:
           name: Allure Report
-          path: allure-results
-
-      - name: Generate site
-        uses: actions/upload-artifact@v4
-        with:
-          name: Generate site
-          path: target/site
+          path: allure-report

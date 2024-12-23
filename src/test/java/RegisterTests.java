@@ -10,7 +10,7 @@ public class RegisterTests {
     private static final String BASE_URL = "https://reqres.in/api";
 
     @Test
-    @Description
+    @Description ("Тест регистрации")
     public void testRegisterPositive() {
         String requestBody = """
             {
